@@ -1,0 +1,37 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model PagerApp.Application.ViewModels.NoteViewModel
+
+<h2>Заметка</h2>
+<p>
+    <a href="/Note/Edit/@Model.Note.Id">Редактировать</a>
+    <a href="/Note/Delete/@Model.Note.Id">Удалить</a>
+</p>
+<dl>
+    <dt>Заголовок</dt>
+    <dd>
+        @Model.Note.Title
+    </dd>
+
+    <dt>Описание</dt>
+    <dd>
+        @Model.Note.Description
+    </dd>
+
+    <dt>Приоритет</dt>
+    <dd>
+        @Model.Note.Priority
+    </dd>
+
+    <dt>Дата создания</dt>
+    <dd>
+        @Model.Note.DateCreation
+    </dd>
+
+    <dt>Последнее изменение</dt>
+    <dd>
+        @Model.Note.DateEdition
+    </dd>
+</dl>

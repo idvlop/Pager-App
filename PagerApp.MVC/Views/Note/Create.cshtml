@@ -1,0 +1,34 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <h3>Форма создания заметки</h3>
+    <form method="post" action="">
+        <table>
+            <tr>
+                <td><p>Введите заголовок заметки</p></td>
+                <td><input type="text" name="Title" /> </td>
+            </tr>
+            <tr>
+                <td><p>Введите описание заметки</p></td>
+                <td><textarea name="Description"></textarea></td>
+            </tr>
+            <tr>
+                <td><p>Выберите приоритет заметки</p></td>
+                <td>
+                    <select name="Priority">
+                        <option value="0">Low</option>
+                        <option value="1">Medium</option>
+                        <option value="2">High</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" value="Сохранить" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>

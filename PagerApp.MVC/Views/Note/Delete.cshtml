@@ -1,0 +1,26 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model PagerApp.Application.ViewModels.NoteViewModel
+
+<h2>Удаление заметки</h2>
+<dl>
+    <dt>Заголовок</dt>
+    <dd>
+        @Model.Note.Title
+    </dd>
+    <dt>Описание</dt>
+    <dd>
+        @Model.Note.Description
+    </dd>
+    <dt>Приоритет</dt>
+    <dd>
+        @Model.Note.Priority
+    </dd>
+</dl>
+
+@using (Html.BeginForm())
+{
+    <input type="submit" value="Удалить" />
+}

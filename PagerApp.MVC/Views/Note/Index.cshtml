@@ -1,0 +1,46 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model IEnumerable<PagerApp.Application.ViewModels.NoteViewModel>
+
+<div class="container body-content">
+    <form asp-controller="Note" asp-action="Index">
+        <p>
+            <select name="SearchByEnum">
+                <option value="0">Заголовок</option>
+                <option value="1">Описание</option>
+            </select>
+            <input type="text" name="SearchString" />
+            <input type="submit" value="Поиск" />
+        </p>
+    </form>
+    <a class="container add-note-container" asp-controller="Note" asp-action="Create">
+        <div class="add-note-body">
+            <p class="add-note-text">+ Новая заметка</p>
+        </div>
+    </a>
+    <table id="notes" class="table notes-table row-clickable">
+        <thead>
+            <tr>
+                <th><a asp-action="Index" asp-route-isAscOrder="@ViewBag.isAscOrder" style="color:blue">Приоритет</a></th>
+                <th><a>Заметка</a></th>
+                <th><a>Описание</a></th>
+                <th><a>Дата Создания</a></th>
+                <th><a>Дата изменения</a></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var note in Model)
+            {
+                <tr row-hover>
+                    <td><a href="/Note/Details/@note.Note.Id">@note.Note.Priority</a></td>
+                    <td><a href="/Note/Details/@note.Note.Id">@note.Note.Title</a></td>
+                    <td><a href="/Note/Details/@note.Note.Id">@note.Note.Description</a></td>
+                    <td><a href="/Note/Details/@note.Note.Id">@note.Note.DateCreation</a></td>
+                    <td><a href="/Note/Details/@note.Note.Id">@note.Note.DateEdition</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
