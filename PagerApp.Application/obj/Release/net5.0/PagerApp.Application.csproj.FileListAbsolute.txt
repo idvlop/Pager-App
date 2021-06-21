@@ -1,0 +1,15 @@
+C:\Users\IDV\source\repos\PagerApp\PagerApp.Application\bin\Release\net5.0\PagerApp.Application.deps.json
+C:\Users\IDV\source\repos\PagerApp\PagerApp.Application\bin\Release\net5.0\PagerApp.Application.dll
+C:\Users\IDV\source\repos\PagerApp\PagerApp.Application\bin\Release\net5.0\ref\PagerApp.Application.dll
+C:\Users\IDV\source\repos\PagerApp\PagerApp.Application\bin\Release\net5.0\PagerApp.Application.pdb
+C:\Users\IDV\source\repos\PagerApp\PagerApp.Application\bin\Release\net5.0\PagerApp.Domain.dll
+C:\Users\IDV\source\repos\PagerApp\PagerApp.Application\bin\Release\net5.0\PagerApp.Domain.pdb
+C:\Users\IDV\source\repos\PagerApp\PagerApp.Application\obj\Release\net5.0\PagerApp.Application.csproj.AssemblyReference.cache
+C:\Users\IDV\source\repos\PagerApp\PagerApp.Application\obj\Release\net5.0\PagerApp.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\IDV\source\repos\PagerApp\PagerApp.Application\obj\Release\net5.0\PagerApp.Application.AssemblyInfoInputs.cache
+C:\Users\IDV\source\repos\PagerApp\PagerApp.Application\obj\Release\net5.0\PagerApp.Application.AssemblyInfo.cs
+C:\Users\IDV\source\repos\PagerApp\PagerApp.Application\obj\Release\net5.0\PagerApp.Application.csproj.CoreCompileInputs.cache
+C:\Users\IDV\source\repos\PagerApp\PagerApp.Application\obj\Release\net5.0\PagerApp.Application.csproj.CopyComplete
+C:\Users\IDV\source\repos\PagerApp\PagerApp.Application\obj\Release\net5.0\PagerApp.Application.dll
+C:\Users\IDV\source\repos\PagerApp\PagerApp.Application\obj\Release\net5.0\ref\PagerApp.Application.dll
+C:\Users\IDV\source\repos\PagerApp\PagerApp.Application\obj\Release\net5.0\PagerApp.Application.pdb
