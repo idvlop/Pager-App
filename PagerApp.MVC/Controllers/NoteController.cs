@@ -22,104 +22,175 @@ namespace PagerApp.MVC.Controllers
         }
 
         // GET: NoteController
-        public ActionResult Index(bool isAscOrder, SearchColumnEnum searchByEnum, string searchString)
+        public ActionResult Index(string searchTitle, string searchDescription, string searchTitleAndDescription, OrderColumnEnum orderColumn = OrderColumnEnum.PriorityAsc)
         {
-            isAscOrder = !isAscOrder;
-            ViewBag.isAscOrder = isAscOrder;
+            ViewBag.searchTitle = searchTitle;
+            ViewBag.searchDescription = searchDescription;
+            ViewBag.searchTitleAndDescription = searchTitleAndDescription;
 
             IEnumerable<NoteViewModel> noteVMs;
-            if (!string.IsNullOrWhiteSpace(searchString))
+            FilterViewModel filterVM;
+            SortViewModel sortVM;
+
+
+            if (!string.IsNullOrWhiteSpace(searchTitle) && !string.IsNullOrWhiteSpace(searchDescription))
             {
-                noteVMs = noteService.GetNotesSearchBy(searchByEnum, searchString);
+                noteVMs = noteService.GetFilteredNotes(searchTitle, searchDescription, SearchColumnEnum.TitleAndDescription);
+                filterVM = new FilterViewModel(searchTitle, searchDescription, noteVMs);
+            }
+            else if (!string.IsNullOrWhiteSpace(searchTitle))
+            {
+                noteVMs = noteService.GetFilteredNotes(searchTitle, searchDescription, SearchColumnEnum.Title);
+                filterVM = new FilterViewModel(searchTitle, SearchColumnEnum.Title, noteVMs);
+            }
+            else if (!string.IsNullOrWhiteSpace(searchDescription))
+            {
+                noteVMs = noteService.GetFilteredNotes(searchTitle, searchDescription, SearchColumnEnum.Description);
+                filterVM = new FilterViewModel(searchDescription, SearchColumnEnum.Description, noteVMs);
+            }
+            else if (!string.IsNullOrWhiteSpace(searchTitleAndDescription))
+            {
+                noteVMs = noteService.GetFilteredNotes(searchTitleAndDescription, SearchColumnEnum.TitleOrDescription);
+                filterVM = new FilterViewModel(searchTitleAndDescription, SearchColumnEnum.TitleOrDescription, noteVMs);
             }
             else
             {
-                noteVMs = isAscOrder ? noteService.GetNotesAscOrderedByPriority() : noteService.GetNotesDescOrderedByPriority();
+                noteVMs = noteService.GetNotes();
+                filterVM = new FilterViewModel(noteVMs);
             }
-            return View(noteVMs);
+
+            noteVMs = orderColumn == OrderColumnEnum.PriorityAsc ? noteService.GetOrderedNotes(noteVMs, OrderColumnEnum.PriorityAsc) : noteService.GetOrderedNotes(noteVMs, OrderColumnEnum.PriorityDesc);
+            sortVM = new SortViewModel(orderColumn);
+            var indexVM = new IndexViewModel()
+            {
+                FilterVM = filterVM,
+                SortVM = sortVM,
+                Notes = noteVMs
+            };
+            return View(indexVM);
         }
 
         // GET: NoteController/Details/5
         public ActionResult Details(long id)
         {
-            NoteViewModel noteVM = noteService.GetNote(id);
-            return View(noteVM);
+            try
+            {
+                NoteViewModel noteVM = noteService.GetNote(id);
+
+                if (noteVM.Note == null) throw new ArgumentException($"Ошибка: заметки с id = {id} не существует.");
+
+                return View(noteVM);
+            }
+            catch(ArgumentException exc)
+            {
+                return StatusCode(404, exc.Message);
+            }
         }
 
         // GET: NoteController/Create
-        public ActionResult Create(long id)
+        public ActionResult Create()
         {
-            ViewBag.NoteId = id;
-            return View();
+            return View(new NoteFormViewModel());
         }
 
         // POST: NoteController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(NoteFormViewModel noteFormVM)
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(collection["Title"])) throw new ArgumentException("Заголовок не может быть пустым.");
+                if (string.IsNullOrWhiteSpace(noteFormVM.Title)) throw new ArgumentException("Ошибка: заголовок не может быть пустым.");
 
-                var noteVM = new NoteViewModel(collection["Title"], collection["Description"], collection["Priority"]);
+                var noteVM = new NoteViewModel(noteFormVM.Title, noteFormVM.Description, noteFormVM.Priority);
                 noteService.AddNote(noteVM);
                 return RedirectToAction(nameof(Index));
             }
             catch (ArgumentException exc)
             {
-                return View("Error", new ErrorViewModel() { StatusCode = "400", ErrorMessage = exc.Message });
+                return StatusCode(400, exc.Message);
+                //return View("Error", new ErrorViewModel() { StatusCode = "400", ErrorMessage = exc.Message });
             }
         }
 
         // GET: NoteController/Edit/5
         public ActionResult Edit(long id)
         {
-            NoteViewModel noteVM = noteService.GetNote(id);
-            return View(noteVM);
+            try
+            {
+                var noteVM = noteService.GetNote(id);
+                if (noteVM.Note == null) throw new BadHttpRequestException($"Ошибка: заметки с id = {id} не существует.");
+
+                return View(new NoteFormViewModel() { Title = noteVM.Note.Title, Description = noteVM.Note.Description });
+            }
+            catch (BadHttpRequestException exc)
+            {
+                return StatusCode(404, exc.Message);
+            }
         }
 
         // POST: NoteController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(long id, IFormCollection collection)
+        public ActionResult Edit(long id, NoteFormViewModel noteFormVM)
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(collection["Title"])) throw new ArgumentException("Заголовок не может быть пустым.");
+                if (string.IsNullOrWhiteSpace(noteFormVM.Title)) throw new ArgumentException("Ошибка: заголовок не может быть пустым.");
 
                 var noteVM = noteService.GetNote(id);
-                noteVM.SetValues(collection["Title"], collection["Description"]);
+
+                if (noteVM.Note == null) throw new BadHttpRequestException($"Ошибка: заметки с id = {id} не существует.");
+
+                noteVM.EditNoteValues(noteFormVM.Title, noteFormVM.Description);
                 noteService.UpdateNote(noteVM);
                 return RedirectToAction(nameof(Index));
-            }
+        }
             catch (ArgumentException exc)
             {
-                return View("Error", new ErrorViewModel() { StatusCode = "400", ErrorMessage = exc.Message });
+                return StatusCode(400, exc.Message);
+                //return View("Error", new ErrorViewModel() { StatusCode = "404", ErrorMessage = exc.Message });
+            }
+            catch (BadHttpRequestException exc)
+            {
+                return StatusCode(404, exc.Message);
             }
         }
 
         // GET: NoteController/Delete/5
         public ActionResult Delete(long id)
         {
-            var noteVM = noteService.GetNote(id);
-            return View(noteVM);
+            try
+            {
+                NoteViewModel noteVM = noteService.GetNote(id);
+
+                if (noteVM.Note == null) throw new ArgumentException($"Ошибка: заметки с id = {id} не существует.");
+
+                return View(noteVM);
+            }
+            catch (ArgumentException exc)
+            {
+                return StatusCode(404, exc.Message);
+            }
         }
 
         // POST: NoteController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(long id, IFormCollection collection)
+        public ActionResult Delete(long id, NoteFormViewModel noteFormVM)
         {
             try
             {
                 var noteVM = noteService.GetNote(id);
+
+                if (noteVM.Note == null) throw new BadHttpRequestException($"Ошибка: заметки с id = {id} не существует.");
+
                 noteService.DeleteNote(noteVM);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch(BadHttpRequestException exc)
             {
-                return View("Error", new ErrorViewModel());
+                return StatusCode(404, exc.Message);
             }
         }
     }

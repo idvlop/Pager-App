@@ -12,14 +12,6 @@ namespace PagerApp.Application.Interfaces
     {
         IEnumerable<NoteViewModel> GetNotes();
 
-        IEnumerable<NoteViewModel> GetNotes(Func<NoteViewModel, bool> predicate);
-
-        IEnumerable<NoteViewModel> GetNotesAscOrderedByPriority();
-
-        IEnumerable<NoteViewModel> GetNotesDescOrderedByPriority();
-
-        IEnumerable<NoteViewModel> GetNotesSearchBy(SearchColumnEnum searchByEnum, string searchString);
-
         NoteViewModel GetNote(long id);
 
         void AddNote(NoteViewModel noteVM);
@@ -27,5 +19,14 @@ namespace PagerApp.Application.Interfaces
         void UpdateNote(NoteViewModel noteVM);
 
         void DeleteNote(NoteViewModel noteVM);
+
+        IEnumerable<NoteViewModel> GetNotesAscOrderedByPriority();
+
+        IEnumerable<NoteViewModel> GetNotesDescOrderedByPriority();
+
+        IEnumerable<NoteViewModel> GetFilteredNotes(string searchString, SearchColumnEnum searchColumn);
+        IEnumerable<NoteViewModel> GetFilteredNotes(string searchStringTitle, string searchStringDescription, SearchColumnEnum searchColumn);
+
+        IEnumerable<NoteViewModel> GetOrderedNotes(IEnumerable<NoteViewModel> noteViewModels, OrderColumnEnum orderColumn);
     }
 }

@@ -2,22 +2,29 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@model PagerApp.Application.ViewModels.NoteViewModel
-<div>
-    <h3>Редактирование заметки</h3>
-    <form method="post" action="">
+@model PagerApp.MVC.Models.NoteFormViewModel
+
+<div class="container" id="edit">
+    <form method="post" class="form">
         <table>
             <tr>
-                <td><p>Заголовок заметки:</p></td>
-                <td><input type="text" name="Title" value="@Model.Note.Title" /></td>
+                <td><h3>Редактирование заметки</h3></td>
             </tr>
             <tr>
-                <td><p>Описание заметки:</p></td>
-                <td><textarea name="Description">@Model.Note.Description</textarea></td>
+                <td><br /><label class="text-primary">Заголовок заметки:</label></td>
+            </tr>
+            <tr>
+                <td><input type="text" name="Title" value="@Model.Title" class="text-body input-group" /></td>
+            </tr>
+            <tr>
+                <td><br /><label class="text-primary">Описание заметки:</label></td>
+            </tr>
+            <tr>
+                <td><textarea name="Description" class="text-body input-group">@Model.Description</textarea></td>
             </tr>
             <tr>
                 <td>
-                    <input type="submit" value="Сохранить" /> 
+                    <br /><input type="submit" value="Сохранить" class="btn btn-success" />
                 </td>
             </tr>
         </table>

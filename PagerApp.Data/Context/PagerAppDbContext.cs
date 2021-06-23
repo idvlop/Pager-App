@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PagerApp.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PagerApp.Data.Context
 {
@@ -13,6 +8,5 @@ namespace PagerApp.Data.Context
         public PagerAppDbContext(DbContextOptions options) : base(options) { }
 
         public DbSet<Note> Notes { get; set; }
-
     }
 }

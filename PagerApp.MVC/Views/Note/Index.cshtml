@@ -2,19 +2,26 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@model IEnumerable<PagerApp.Application.ViewModels.NoteViewModel>
+@model PagerApp.MVC.Models.IndexViewModel
 
-<div class="container body-content">
-    <form asp-controller="Note" asp-action="Index">
-        <p>
-            <select name="SearchByEnum">
-                <option value="0">Заголовок</option>
-                <option value="1">Описание</option>
-            </select>
-            <input type="text" name="SearchString" />
-            <input type="submit" value="Поиск" />
-        </p>
-    </form>
+<div class="container body-content" id="index">
+    <form asp-controller="Note" asp-action="Index" method="get" class="form form-inline">
+        <label class="text-sm-left">Поиск по заголовкам:</label>
+        <input type="text" value="@Model.FilterVM.TitleFilter" name="searchTitle" class="text-body input-group-sm" style="margin: 0 5px 0 5px" />
+
+        <label class="text-sm-left">Поиск по описаниям:</label>
+        <input type="text" value="@Model.FilterVM.DescriptionFilter" name="searchDescription" class="text-body input-group-sm" style="margin: 0 5px 0 5px" />
+
+        <input type="submit" value="Поиск" class="btn-sm btn-outline-secondary" />
+    </form><br />
+
+    <form asp-controller="Note" asp-action="Index" method="get" class="form form-inline">
+        <label class="text-sm-left">Поиск по заголовкам и описаниям:</label>
+        <input type="text" value="@Model.FilterVM.TitleAndDescriptionFilter" name="searchTitleAndDescription" class="text-body input-group-sm" style="margin: 0 5px 0 5px" />
+
+        <input type="submit" value="Поиск" class="btn btn-sm btn-outline-secondary" />
+    </form><br />
+
     <a class="container add-note-container" asp-controller="Note" asp-action="Create">
         <div class="add-note-body">
             <p class="add-note-text">+ Новая заметка</p>
@@ -23,7 +30,7 @@
     <table id="notes" class="table notes-table row-clickable">
         <thead>
             <tr>
-                <th><a asp-action="Index" asp-route-isAscOrder="@ViewBag.isAscOrder" style="color:blue">Приоритет</a></th>
+                <th><a asp-action="Index" asp-route-orderColumn="@Model.SortVM.OrderColumn" style="color:blue">Приоритет</a></th>
                 <th><a>Заметка</a></th>
                 <th><a>Описание</a></th>
                 <th><a>Дата Создания</a></th>
@@ -31,7 +38,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var note in Model)
+            @foreach (var note in Model.Notes)
             {
                 <tr row-hover>
                     <td><a href="/Note/Details/@note.Note.Id">@note.Note.Priority</a></td>

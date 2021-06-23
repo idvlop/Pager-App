@@ -4,34 +4,42 @@
 
 @model PagerApp.Application.ViewModels.NoteViewModel
 
-<h2>Заметка</h2>
-<p>
-    <a href="/Note/Edit/@Model.Note.Id">Редактировать</a>
-    <a href="/Note/Delete/@Model.Note.Id">Удалить</a>
-</p>
-<dl>
-    <dt>Заголовок</dt>
-    <dd>
-        @Model.Note.Title
-    </dd>
+<div class="container" id="details">
+    <h2>Заметка</h2>
+    <p>
+        <a href="/Note/Edit/@Model.Note.Id" class="btn btn-primary">Редактировать</a>
+        <a href="/Note/Delete/@Model.Note.Id" class="btn btn-danger">Удалить</a>
+    </p>
+    <dl>
+        <dt><label>Заголовок:</label></dt>
+        <dd>
+            @Model.Note.Title
+        </dd>
 
-    <dt>Описание</dt>
-    <dd>
-        @Model.Note.Description
-    </dd>
+        @if (Model.Note.Description != null)
+        {
+            <dt><label>Описание:</label></dt>
+            <dd>
+                @Model.Note.Description
+            </dd>
+        }
 
-    <dt>Приоритет</dt>
-    <dd>
-        @Model.Note.Priority
-    </dd>
+        <dt><label>Приоритет:</label></dt>
+        <dd>
+            @Model.Note.Priority
+        </dd>
 
-    <dt>Дата создания</dt>
-    <dd>
-        @Model.Note.DateCreation
-    </dd>
+        <dt><label>Дата создания:</label></dt>
+        <dd>
+            @Model.Note.DateCreation
+        </dd>
 
-    <dt>Последнее изменение</dt>
-    <dd>
-        @Model.Note.DateEdition
-    </dd>
-</dl>
+        @if (Model.Note.DateEdition != null)
+        {
+            <dt><label>Последнее изменение:</label></dt>
+            <dd>
+                @Model.Note.DateEdition
+            </dd>
+        }
+    </dl>
+</div>

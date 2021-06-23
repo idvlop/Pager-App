@@ -1,4 +1,5 @@
-﻿@model ErrorViewModel
+﻿@page "/Error"
+@model ErrorViewModel
 @{
     ViewData["Title"] = "Error";
 }
@@ -10,31 +11,39 @@
 {
     <p>
         <strong>Request ID:</strong> <code>@Model.RequestId</code>
-    
+
     </p>
 }
-@if (Model.ShowStatusCode)
+@*@if (Model.ShowStatusCode)
+{*@
+    <p>
+        <strong>HTTP Status Code:</strong> <code>@HttpContext.Response.StatusCode</code>
+    </p>
+@*}*@
+@if (Model.ShowErrorMessage)
 {
     <p>
-        <strong>HTTP Status Code:</strong> <code>@Model.StatusCode</code>
+
+        <strong>Сообщение ошибки:</strong> <br />
+        @Model.ErrorMessage
     </p>
 }
-@if (Model.ShowErrorMessage)
-{ 
-<p> 
+@if (Model.ShowOriginalURL)
+{
+    <p>
 
-    <strong>Сообщение ошибки:</strong> <br />
-    @Model.ErrorMessage       
-</p>
+        <strong>OriginalURL:</strong> <br />
+        @Model.OriginalURL
+    </p>
 }
 
 @*<h3>Development Mode</h3>
-<p>
-    Swapping to <strong>Development</strong> environment will display more detailed information about the error that occurred.
-</p>
-<p>
-    <strong>The Development environment shouldn't be enabled for deployed applications.</strong>
-    It can result in displaying sensitive information from exceptions to end users.
-    For local debugging, enable the <strong>Development</strong> environment by setting the <strong>ASPNETCORE_ENVIRONMENT</strong> environment variable to <strong>Development</strong>
-    and restarting the app.
-</p>*@
+    <p>
+        Swapping to <strong>Development</strong> environment will display more detailed information about the error that occurred.
+    </p>
+    <p>
+        <strong>The Development environment shouldn't be enabled for deployed applications.</strong>
+        It can result in displaying sensitive information from exceptions to end users.
+        For local debugging, enable the <strong>Development</strong> environment by setting the <strong>ASPNETCORE_ENVIRONMENT</strong> environment variable to <strong>Development</strong>
+        and restarting the app.
+    </p>*@

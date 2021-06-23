@@ -24,9 +24,33 @@ namespace PagerApp.Application.Services
             noteRepository.DeleteNote(noteVM.Note);
         }
 
-        public IEnumerable<NoteViewModel> GetNotes(Func<NoteViewModel, bool> predicate)
+        public IEnumerable<NoteViewModel> GetFilteredNotes(string searchString, SearchColumnEnum searchColumn)
         {
-            return noteRepository.GetNotes().Select(x => new NoteViewModel(x)).Where(predicate);
+            var stringComparison = StringComparison.OrdinalIgnoreCase;
+            return !string.IsNullOrWhiteSpace(searchString) && searchColumn == SearchColumnEnum.TitleOrDescription
+                ? noteRepository.GetNotes(x => (x.Title.Contains(searchString, stringComparison) || (!string.IsNullOrWhiteSpace(x.Description) && x.Description.Contains(searchString, stringComparison)))).Select(x => new NoteViewModel(x))
+                : null;
+        }
+
+        public IEnumerable<NoteViewModel> GetFilteredNotes(string searchStringTitle, string searchStringDescription, SearchColumnEnum searchColumn)
+        {
+            var stringComparison = StringComparison.OrdinalIgnoreCase;
+            return !string.IsNullOrWhiteSpace(searchStringTitle) && !string.IsNullOrWhiteSpace(searchStringDescription) && searchColumn == SearchColumnEnum.TitleAndDescription
+                ? noteRepository.GetNotes(x => (x.Title.Contains(searchStringTitle, stringComparison) && !string.IsNullOrWhiteSpace(x.Description) && x.Description.Contains(searchStringDescription, stringComparison))).Select(x => new NoteViewModel(x))
+                : !string.IsNullOrWhiteSpace(searchStringTitle) && searchColumn == SearchColumnEnum.Title
+                ? noteRepository.GetNotes(x => x.Title.Contains(searchStringTitle, stringComparison)).Select(x => new NoteViewModel(x))
+                : !string.IsNullOrWhiteSpace(searchStringDescription) && searchColumn == SearchColumnEnum.Description
+                ? noteRepository.GetNotes(x => (!string.IsNullOrWhiteSpace(x.Description) && x.Description.Contains(searchStringDescription, stringComparison))).Select(x => new NoteViewModel(x))
+                : null;
+        }
+
+        public IEnumerable<NoteViewModel> GetOrderedNotes(IEnumerable<NoteViewModel> noteViewModels, OrderColumnEnum orderColumn)
+        {
+            return orderColumn == OrderColumnEnum.PriorityAsc
+                ? noteViewModels.OrderBy(x => x.Note.Priority)
+                : orderColumn == OrderColumnEnum.PriorityDesc
+                ? noteViewModels.OrderByDescending(x => x.Note.Priority)
+                : null;
         }
 
         public IEnumerable<NoteViewModel> GetNotesAscOrderedByPriority()
@@ -37,15 +61,6 @@ namespace PagerApp.Application.Services
         public IEnumerable<NoteViewModel> GetNotesDescOrderedByPriority()
         {
             return noteRepository.GetNotes().OrderByDescending(x => x.Priority).Select(x => new NoteViewModel(x));
-        }
-
-        public IEnumerable<NoteViewModel> GetNotesSearchBy(SearchColumnEnum searchByEnum, string searchString)
-        {
-            return searchByEnum == SearchColumnEnum.Title 
-                ? noteRepository.GetNotes().Where(x => x.Title.Contains(searchString)).Select(x => new NoteViewModel(x)) 
-                : searchByEnum == SearchColumnEnum.Description 
-                ? noteRepository.GetNotes().Where(x => !string.IsNullOrEmpty(x.Description) && x.Description.Contains(searchString)).Select(x => new NoteViewModel(x)) 
-                : null;
         }
 
         void INoteService.AddNote(NoteViewModel noteVM)

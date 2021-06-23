@@ -4,23 +4,34 @@
 
 @model PagerApp.Application.ViewModels.NoteViewModel
 
-<h2>Удаление заметки</h2>
-<dl>
-    <dt>Заголовок</dt>
-    <dd>
-        @Model.Note.Title
-    </dd>
-    <dt>Описание</dt>
-    <dd>
-        @Model.Note.Description
-    </dd>
-    <dt>Приоритет</dt>
-    <dd>
-        @Model.Note.Priority
-    </dd>
-</dl>
-
-@using (Html.BeginForm())
-{
-    <input type="submit" value="Удалить" />
-}
+<div class="container" id="delete">
+    <table class="table-borderless">
+        <tr>
+            <td><h2 class="text-danger">Удаление заметки</h2></td>
+        </tr>
+        <tr>
+            <td><label class="text-primary">Заголовок:</label></td>
+        </tr>
+        <tr>
+            <td><p class="text-secondary">@Model.Note.Title</p></td>
+        </tr>
+        @if (Model.Note.Description != null)
+        {
+            <tr>
+                <td><label class="text-primary">Описание:</label></td>
+            </tr>
+            <tr>
+                <td><p class="text-secondary">@Model.Note.Description</p></td>
+            </tr>
+        }
+        <tr>
+            <td><label class="text-primary">Приоритет:</label></td>
+        </tr>
+        <tr>
+            <td><p class="text-secondary">@Model.Note.Priority</p></td>
+        </tr>
+        <tr>
+            <td><form method="post"><input type = "submit" value = "Удалить" class="btn btn-danger" /></form></td>
+        </tr>
+    </table>
+</div>

@@ -5,14 +5,12 @@ using PagerApp.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PagerApp.Data.RepositoriesImpl
 {
     public class NoteRepository : INoteRepository
     {
-        private PagerAppDbContext context;
+        private readonly PagerAppDbContext context;
 
         public NoteRepository(PagerAppDbContext context)
         {
@@ -43,7 +41,6 @@ namespace PagerApp.Data.RepositoriesImpl
 
         public void DeleteNote(Note note)
         {
-            //context.Notes.Remove(note);
             context.Entry(note).State = EntityState.Deleted;
             context.SaveChanges();
         }

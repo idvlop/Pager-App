@@ -2,23 +2,46 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div>
-    <h3>Форма создания заметки</h3>
-    <form method="post" action="">
+@model PagerApp.MVC.Models.NoteFormViewModel
+
+<div class="container" id="create">
+    <form method="post" class="form">
         <table>
             <tr>
-                <td><p>Введите заголовок заметки</p></td>
-                <td><input type="text" name="Title" /> </td>
+                <td><h3>Форма создания заметки</h3></td>
             </tr>
+
             <tr>
-                <td><p>Введите описание заметки</p></td>
-                <td><textarea name="Description"></textarea></td>
-            </tr>
-            <tr>
-                <td><p>Выберите приоритет заметки</p></td>
                 <td>
-                    <select name="Priority">
-                        <option value="0">Low</option>
+                    <br /><label class="text-primary" >Введите заголовок заметки</label>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <input type="text" name="Title" placeholder="*Заголовок" class="text-body input-group" />
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <br /><label class="text-primary">Введите описание заметки</label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <textarea name="Description" placeholder="Описание" class="text-body input-group"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <br /><label class="text-primary">Выберите приоритет заметки</label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <select name="Priority" class="custom-select">
+                        <option value="0" selected>Low</option>
                         <option value="1">Medium</option>
                         <option value="2">High</option>
                     </select>
@@ -26,7 +49,7 @@
             </tr>
             <tr>
                 <td>
-                    <input type="submit" value="Сохранить" />
+                    <br /><input type="submit" value="Сохранить" class="btn btn-success" />
                 </td>
             </tr>
         </table>

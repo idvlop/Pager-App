@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PagerApp.Application.Enums
+﻿namespace PagerApp.Application.Enums
 {
+    /// <summary>
+    /// Перечисление столбцов, по которым можно выполнять фильтрацию. 
+    /// </summary>
     public enum SearchColumnEnum
     {
         Title,
-        Description
+        Description,
+        TitleAndDescription,
+        TitleOrDescription
     }
 }
