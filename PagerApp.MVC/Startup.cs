@@ -30,7 +30,7 @@ namespace PagerApp.MVC
 
             services.AddDbContext<PagerAppDbContext>(options =>
             {
-                options.UseNpgsql("Host=ec2-34-254-69-72.eu-west-1.compute.amazonaws.com;Port=5432;Database=dau8fq1nckf0gu;Username=wwsinvedgfgczt;Password=b0327fe731f7098d79a198ff873d9c5f8a9385ea0b793f7c3c99ad4f6cb175ed;SSL Mode=Require;Trust Server Certificate=True;");
+                options.UseNpgsql("Host=pager;Port=5432;Database=pager;Username=pager;Password=pager;SSL Mode=Require;Trust Server Certificate=True;");
             });
 
             RegisterServices(services);
