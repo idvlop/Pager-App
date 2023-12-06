@@ -1,6 +1,2 @@
 # PagerApp
-Сайт для создания, редактирования, удаления и просмотра заметок.
-
-
-Сайт развернут на Heroku: https://pager-app-by-idvlop.herokuapp.com (Deprecated Link)
-Используемая база данных - PostgreSQL (Лежит на Heroku)
+Service for creating, editing, deleting and viewing notes [C#, ASP.NET Core 5 MVC, PostgeSQL]
